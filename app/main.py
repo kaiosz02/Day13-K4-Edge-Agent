@@ -4,12 +4,13 @@ import os
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
 from structlog.contextvars import bind_contextvars
 
 from .agent import LabAgent
 from .incidents import disable, enable, status
 from .logging_config import configure_logging, get_logger
-from .metrics import record_error, snapshot
+from .metrics import record_error, record_request_received, snapshot
 from .middleware import CorrelationIdMiddleware
 from .pii import hash_user_id, summarize_text
 from .schemas import ChatRequest, ChatResponse
@@ -69,8 +70,12 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
         service="api",
         payload={"message_preview": summarize_text(body.message)},
     )
+    record_request_received()
     try:
-        result = agent.run(
+        # RAG/LLM mock is synchronous (it uses time.sleep). Run it outside the
+        # async event loop so concurrent requests do not queue behind each other.
+        result = await run_in_threadpool(
+            agent.run,
             user_id=body.user_id,
             feature=body.feature,
             session_id=body.session_id,
