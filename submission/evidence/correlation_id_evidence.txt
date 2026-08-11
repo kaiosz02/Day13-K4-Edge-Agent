@@ -1,0 +1,9 @@
+[Evidence Correlation ID Propagation]
+
+Request 1:
+{"service": "api", "payload": {"message_preview": "Explain why metrics traces and logs work together."}, "event": "request_received", "model": "claude-sonnet-4-5", "user_id_hash": "f00ba60b3772", "correlation_id": "req-d297b9e4", "feature": "monitoring", "env": "dev", "session_id": "k4-challenge-s01", "level": "info", "ts": "2026-08-11T07:47:24.757363Z"}
+{"service": "api", "latency_ms": 2651, "tokens_in": 35, "tokens_out": 114, "cost_usd": 0.001815, "quality_score": 0.8, "payload": {"answer_preview": "Starter answer..."}, "event": "response_sent", "model": "claude-sonnet-4-5", "user_id_hash": "f00ba60b3772", "correlation_id": "req-d297b9e4", "feature": "monitoring", "env": "dev", "session_id": "k4-challenge-s01", "level": "info", "ts": "2026-08-11T07:47:27.414925Z"}
+
+Request 2:
+{"service": "api", "payload": {"message_preview": "Which signal should be checked after latency increases?"}, "event": "request_received", "model": "claude-sonnet-4-5", "user_id_hash": "6b83e74c0874", "correlation_id": "req-6dce5328", "feature": "monitoring", "env": "dev", "session_id": "k4-challenge-s04", "level": "info", "ts": "2026-08-11T07:47:27.417601Z"}
+{"service": "api", "latency_ms": 2651, "tokens_in": 36, "tokens_out": 90, "cost_usd": 0.001458, "quality_score": 0.9, "payload": {"answer_preview": "Starter answer..."}, "event": "response_sent", "model": "claude-sonnet-4-5", "user_id_hash": "6b83e74c0874", "correlation_id": "req-6dce5328", "feature": "monitoring", "env": "dev", "session_id": "k4-challenge-s04", "level": "info", "ts": "2026-08-11T07:47:30.069598Z"}
