@@ -1,0 +1,29 @@
+Challenge ID: day13-k4-observability-v1
+Cohort: K4
+Incident: rag_slow
+Seed: 1304
+Affected feature: monitoring
+
+=== Load test output ===
+[200] req-c19a4ea8 | monitoring | 7966.3ms
+[200] req-b8424376 | monitoring | 13275.1ms
+[200] req-ca069789 | monitoring | 13276.3ms
+[200] req-4072a895 | monitoring | 13278.2ms
+[200] req-6915cf49 | monitoring | 13275.3ms
+
+=== Metrics snapshot (/metrics) after challenge ===
+latency_p50: 150 ms
+latency_p95: 2650 ms
+latency_p99: 2651 ms
+quality_avg: 0.8891
+error_breakdown: {}
+
+=== Challenge response_sent log events ===
+correlation_id=req-c19a4ea8 | session=k4-challenge-s04 | latency_ms=2650 | tokens_in=36 | tokens_out=113 | cost_usd=0.001803 | quality_score=0.9
+correlation_id=req-b8424376 | session=k4-challenge-s05 | latency_ms=2651 | tokens_in=35 | tokens_out=120 | cost_usd=0.001905 | quality_score=0.8
+correlation_id=req-4072a895 | session=k4-challenge-s02 | latency_ms=2650 | tokens_in=34 | tokens_out=175 | cost_usd=0.002727 | quality_score=0.9
+correlation_id=req-6915cf49 | session=k4-challenge-s03 | latency_ms=2651 | tokens_in=35 | tokens_out=103 | cost_usd=0.001650 | quality_score=0.8
+correlation_id=req-ca069789 | session=k4-challenge-s01 | latency_ms=2651 | tokens_in=35 | tokens_out=135 | cost_usd=0.002130 | quality_score=0.8
+
+=== Incident disable ===
+POST /incidents/rag_slow/disable -> 200 OK (incidents: all False)
