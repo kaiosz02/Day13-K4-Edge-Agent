@@ -1,0 +1,27 @@
+=== Demo Outline — Metrics → Traces → Logs → Root Cause ===
+Presenter: Hoàng Văn Quang (Role B — mở đầu metrics/dashboard)
+
+1. METRICS (30s)
+   - Mở GET /metrics hoặc dashboard Langfuse
+   - Chỉ ra: latency_p95 tăng, error_breakdown trống, quality_avg ổn định
+   - So sánh ngưỡng SLO: latency_p95_ms <= 3000
+
+2. TRACES (60s)
+   - Mở Langfuse → filter session k4-challenge-s01..s05
+   - Trace req-d297b9e4: waterfall cho thấy span retrieve(message) chiếm phần lớn thời gian
+   - Span llm.generate() vẫn ~150ms → không phải LLM
+
+3. LOGS (45s)
+   - Mở data/logs.jsonl, grep correlation_id req-d297b9e4
+   - request_received + response_sent cùng correlation_id, feature=monitoring
+   - latency_ms ghi nhận trong log khớp triệu chứng metrics
+
+4. ROOT CAUSE (45s)
+   - POST /incidents/rag_slow/enable đã bật delay trong app/mock_rag.py (time.sleep 2.5s)
+   - Fix: POST /incidents/rag_slow/disable
+   - Preventive: alert high_latency_p95, timeout retrieval, circuit breaker
+
+Evidence refs:
+- submission/evidence/challenge_investigation_evidence.txt
+- submission/evidence/trace_waterfall_evidence.txt
+- docs/alerts.md

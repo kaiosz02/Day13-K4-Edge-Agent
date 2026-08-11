@@ -1,0 +1,27 @@
+=== Trace Waterfall Evidence (Challenge rag_slow) ===
+Source: submission/evidence/challenge_investigation_evidence.txt
+
+Correlation ID: req-d297b9e4
+Session: k4-challenge-s01
+Feature: monitoring
+End-to-end latency: 7972.4ms (load test) / 2651ms (log latency_ms field)
+
+Span breakdown (Langfuse waterfall):
+1. HTTP Request Receive          ~0ms
+2. retrieve(message)             +2500ms+  (app/mock_rag.py — rag_slow incident active)
+3. llm.generate()                ~150ms
+4. Response Sent                 total 7972–13283ms
+
+Correlation IDs observed during challenge (>=5 traces):
+- req-d297b9e4  (7972.4ms)
+- req-6dce5328  (10625.6ms)
+- req-bd251dd0  (13280.8ms)
+- req-9768d5de  (13283.5ms)
+- req-5dbfeb44  (13283.0ms)
+
+Span đáng chú ý: `retrieve(message)` trong `app/mock_rag.py`
+- Khi incident `rag_slow` bật, span này thêm `time.sleep(2.5)` nhân tạo.
+- Đây là span chiếm phần lớn tail latency; các span khác (LLM generate) vẫn ~150ms.
+- Kết luận: root cause nằm ở RAG retrieval, không phải LLM generation.
+
+Langfuse project: https://cloud.langfuse.com/project/cmsocoedd01rjad0hu0e3iwo8/traces

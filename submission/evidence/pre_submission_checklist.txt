@@ -1,0 +1,34 @@
+=== Pre-submission Checklist (Checkpoint Hoàn tất) ===
+Date: 2026-08-11
+
+[PASS] python scripts/validate_logs.py          -> 100/100
+[PASS] python scripts/validate_dashboard.py     -> HỢP LỆ: 6/6 panel
+[PASS] python -m pytest -q (venv)               -> 22 passed
+[PASS] .env listed in .gitignore
+[PASS] data/logs.jsonl listed in .gitignore (runtime log not committed)
+[PASS] PII leaks in logs: 0
+
+Evidence files present:
+- submission/evidence/validate_logs_result.txt
+- submission/evidence/validate_dashboard_result.txt
+- submission/evidence/correlation_id_evidence.txt
+- submission/evidence/log_sample_with_correlation_id.txt
+- submission/evidence/pii_redaction_evidence.txt
+- submission/evidence/trace_waterfall_evidence.txt
+- submission/evidence/challenge_result.txt
+- submission/evidence/challenge_investigation_evidence.txt
+- submission/evidence/pytest_result.txt
+
+Pending (manual — cần Role C / nhóm bổ sung):
+- [ ] Ảnh dashboard 6 panel trên Langfuse hoặc Streamlit
+- [ ] Ảnh 2 prompt version (v1/v2) trên Langfuse
+- [ ] Langfuse trace ID cho baseline và candidate prompt
+- [ ] Ảnh đổi label hoặc rollback production
+- [ ] Commit SHA cuối cập nhật sau push
+- [ ] Push repo lên GitHub và nộp URL trên Codelabs
+
+Demo flow (3–5 phút):
+Metrics (/metrics, dashboard P95 spike)
+  -> Traces (Langfuse: span retrieve chậm)
+  -> Logs (correlation_id req-d297b9e4 trong data/logs.jsonl)
+  -> Root cause (rag_slow incident trong mock_rag.py)

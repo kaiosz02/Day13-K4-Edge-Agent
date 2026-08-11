@@ -1,0 +1,7 @@
+Command: .venv\Scripts\python.exe -m pytest -q
+Result: 22 passed, 2 warnings in 2.48s
+
+Warnings (non-blocking):
+- FastAPI on_event deprecation in app/main.py
+
+Note: Langfuse export returned 401 Unauthorized during test teardown (test environment only; does not affect test pass count).
