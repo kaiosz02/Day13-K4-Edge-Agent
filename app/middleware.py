@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 import uuid
+import re
 
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -14,9 +15,12 @@ class CorrelationIdMiddleware(BaseHTTPMiddleware):
         clear_contextvars()
 
         # 2. Lấy từ header hoặc tạo mới, format: req-<8 ký tự hex>
-        correlation_id = request.headers.get(
-            "x-request-id",
-            f"req-{uuid.uuid4().hex[:8]}"
+        supplied_id = request.headers.get("x-request-id", "")
+        # Never mirror arbitrary client text into every log line or response.
+        correlation_id = (
+            supplied_id
+            if re.fullmatch(r"req-[a-f0-9]{8,64}", supplied_id)
+            else f"req-{uuid.uuid4().hex[:8]}"
         )
 
         # 3. Bind vào structlog context — mọi log sau đó tự động có trường này
@@ -32,4 +36,3 @@ class CorrelationIdMiddleware(BaseHTTPMiddleware):
         response.headers["x-response-time-ms"] = f"{(time.perf_counter() - start) * 1000:.1f}"
 
         return response
-
