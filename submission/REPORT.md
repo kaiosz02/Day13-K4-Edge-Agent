@@ -76,7 +76,7 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| Hoàng Thị Trà My | Role A: Logging & Middleware (Correlation ID, PII Redaction) | | Thiết lập Structured JSON Logging và loại bỏ PII |
+| Hoàng Thị Trà My | Role A: Logging & Middleware (Correlation ID, PII Redaction) | | gán mã định danh cho từng request để truy vết toàn trình, làm giàu metadata log để phục vụ bộ lọc/phân tích, và lọc bỏ dữ liệu nhạy cảm trước khi ghi log. |
 | Hoàng Văn Quang | Role B: Dashboard, SLO & Alerting (`config/dashboard.yaml`, `config/slo.yaml`, `config/alert_rules.yaml`, `docs/alerts.md`) | Hoàn thành validator `python scripts/validate_dashboard.py` (`submission/evidence/validate_dashboard_result.txt`) | Thiết kế dashboard theo contract, định nghĩa SLO có ngưỡng rõ ràng và chuẩn hóa alert + runbook theo symptom |
 | Tạ Hồng Quí | Role C: Tracing & Prompt Versioning | | Triển khai Tracing Langfuse và Quản lý Prompt Versioning |
 | Nguyễn Thị Việt Vinh | Role D: QA & Incident Analyst | | Quy trình truy vết và phân tích Incident từ Metrics đến Logs |
