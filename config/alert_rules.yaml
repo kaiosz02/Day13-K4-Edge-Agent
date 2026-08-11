@@ -19,3 +19,10 @@ alerts:
     type: symptom-based
     owner: hoang.van.quang@group-edge-agent
     runbook: docs/alerts.md#alert-3
+
+  - name: cost_budget_exceeded
+    severity: warning
+    condition: "daily_cost_usd > 2.5"
+    type: symptom-based
+    owner: team-lead
+    runbook: docs/alerts.md#alert-4

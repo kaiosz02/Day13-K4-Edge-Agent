@@ -49,3 +49,19 @@ Mọi nhận định phải đi kèm trace ID, log line hoặc metric cụ thể
   3. Xem `data/logs.jsonl` → grep `response_sent` → lọc các record có `quality_score < 0.7` → đọc `payload.answer_preview`
 - **Mitigation tạm thời:** Rollback prompt về label `production` trên Langfuse nếu vừa đổi; kiểm tra RAG docs có bị mất hay không
 - **Owner:** hoang.van.quang@group-edge-agent
+
+---
+
+## Alert 4 — cost_budget_exceeded {#alert-4}
+
+- **Tên:** cost_budget_exceeded
+- **Severity:** warning
+- **SLI/SLO liên quan:** `daily_cost_usd` (mục tiêu < $2.5, đạt 100%)
+- **Điều kiện và thời gian duy trì:** `daily_cost_usd > 2.5`
+- **Ảnh hưởng tới người dùng:** Không gây lỗi trực tiếp cho người dùng, nhưng có thể làm gián đoạn toàn bộ dịch vụ nếu tài khoản Cloud hết tiền/cạn Credit.
+- **Ba bước kiểm tra đầu tiên:**
+  1. Kiểm tra Dashboard phần "Tokens In/Out" để xem liệu hệ thống đang tiêu thụ Token Output một cách bất thường hay không.
+  2. Lên Langfuse lọc các traces có token cao, xác định xem user đang cố tình xài prompt injection (spam) để ép LLM nói nhiều hay không.
+  3. Kiểm tra mã nguồn (mock_llm.py) xem phiên bản LLM Model đang gọi có bị ai đó đổi nhầm sang loại đắt tiền (vd: Claude Opus) không.
+- **Mitigation tạm thời:** Tạm khóa các IP hoặc User ID đang gửi lượng lớn request dài, và thiết lập lại biến `max_tokens` ở đầu ra API.
+- **Owner:** team-lead
